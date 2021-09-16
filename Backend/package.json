@@ -1,0 +1,31 @@
+{
+  "name": "MusicPlayer-FullstackReact",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "devStart":"nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/majabuha/MusicPlayer-FullstackReact.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/majabuha/MusicPlayer-FullstackReact/issues"
+  },
+  "homepage": "https://github.com/majabuha/MusicPlayer-FullstackReact#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^7.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

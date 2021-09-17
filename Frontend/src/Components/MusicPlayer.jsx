@@ -15,7 +15,7 @@ function MusicPlayer() {
   const [duration, setDuration] = useState("");
   const [currentSongId, setCurrentSongId] = useState("");
   const [playingState, setPlayingState] = useState(false);
-  const [activeSong, setActiveSong] = useState({});
+  const [activeSong, setActiveSong] = useState(null);
 
   const playerObj = useRef();
 

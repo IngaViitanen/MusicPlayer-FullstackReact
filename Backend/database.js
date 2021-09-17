@@ -42,7 +42,7 @@ module.exports = {
 
     // gets all users and their playlists
     getUserPlaylists() {
-        let user = all(`SELECT User.*, p.Playlist_name AS playlist FROM User
+        let user = all(`SELECT User.*, p.Playlist_name, p.user_id AS playlist FROM User
         LEFT JOIN PLAYLIST AS p
         ON user_id = User.id`)
         return convertUserPlaylists(user)
@@ -50,7 +50,7 @@ module.exports = {
 
     // gets specific user by id and its playlists
     getUserById(id) {
-        let user = all(`SELECT User.*, p.Playlist_name AS playlist FROM User
+        let user = all(`SELECT User.*, p.Playlist_name, p.user_id AS playlist FROM User
         LEFT JOIN PLAYLIST AS p
         ON user_id = User.id
         WHERE User.id = @id`, { id: id })
@@ -94,10 +94,11 @@ function convertUserPlaylists(user) {
         ids.push(users.id)
 
         if (users.playlist) {
-            //get the last converted user and add favorite songs to its list
+            //get the last converted user and add playlists
             let convertedUser = converted[converted.length - 1]
             convertedUser.PLAYLIST.push({
-                Playlist_name: users.Playlist_name
+                Playlist_name: users.Playlist_name,
+                user_id: users.user_id
             })
         }
     }

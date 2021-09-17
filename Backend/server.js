@@ -17,7 +17,9 @@ app.post('/api/auth', (req, res) => {
 app.post('/api/user', (req, res) => {
     console.log(req.body)
     let newUser = req.body
+    //hashing password before going into the database
     bcrypt.hash(newUser.Password, 10, (err, hash) => {
+      //changing plane password to hashed one
       newUser.Password = hash
       // inserts new user into the database and sets its id to auto incremented id
       let insert = db.createNewAccount(newUser)

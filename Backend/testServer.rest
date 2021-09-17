@@ -1,5 +1,7 @@
 
-//test the registration POST http://localhost:4000/api/user Content-Type: application/json
+//test the registration 
+POST http://localhost:4000/api/user 
+Content-Type: application/json
 
 {
 "FullName": "test",
@@ -9,16 +11,20 @@
 
 ###
 
-//test to add song to playlist POST http://localhost:4000/api/user/playlist Content-Type: application/json
+//test to add song to playlist 
+POST http://localhost:4000/api/user/playlist 
+Content-Type: application/json
 
 { "Playlist_name": "example2", "user_id": 2 }
 
 ###
 
-//test to get all users and playlists GET http://localhost:4000/api/user
+//test to get all users and playlists 
+GET http://localhost:4000/api/user
 
 ###
 
-//test to get user by id and its playlists GET http://localhost:4000/api/user/2
+//test to get user by id and its playlists 
+GET http://localhost:4000/api/user/2
 
 ###

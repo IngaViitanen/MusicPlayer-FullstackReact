@@ -3,6 +3,7 @@ export async function searchSongs(title) {
     `https://yt-music-api.herokuapp.com/api/yt/songs/${title}`
   );
   response = await response.json();
+  console.log(response.content);
   return response.content.map((song) => ({
     active: false,
     id: song.videoId,
@@ -11,6 +12,7 @@ export async function searchSongs(title) {
     image: song.thumbnails[1].url,
   }));
 }
+
 export async function searchArtists(title) {
   let response = await fetch(
     `https://yt-music-api.herokuapp.com/api/yt/artists/${title}`
@@ -23,6 +25,7 @@ export async function searchArtists(title) {
     image: artist.thumbnails[1].url,
   }));
 }
+
 export async function searchAlbums(title) {
   let response = await fetch(
     `https://yt-music-api.herokuapp.com/api/yt/albums/${title}`

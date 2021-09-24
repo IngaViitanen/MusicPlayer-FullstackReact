@@ -6,6 +6,7 @@ import {
   searchAlbums,
 } from "../servies/songServies";
 import Player from "./components/Player";
+import Playlist from "./components/Playlist";
 
 function MusicPlayer() {
   const [itemList, setItemList] = useState([]);
@@ -21,6 +22,7 @@ function MusicPlayer() {
 
   return (
     <div className="container py-4">
+     <Playlist /> 
       <div className="row">
         <div className="col-md-6">
           <ul className="nav nav-tabs" id="myTab" role="tablist">

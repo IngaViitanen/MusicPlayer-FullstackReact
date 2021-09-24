@@ -58,17 +58,39 @@ module.exports = {
     },
 
     // create a new playlist
-    createNewPlaylist(newPlaylist) {
-        const query = `INSERT INTO PLAYLIST(Playlist_name, user_id) VALUES (@Playlist_name, @user_id)`
-        return run(query, newPlaylist)
+    createNewPlaylist(newPlaylist, userId) {
+        const query = `
+        INSERT INTO PLAYLIST(Playlist_name, user_id)
+        VALUES (@Playlist_name, @user_id)`
+        return run(query, {Playlist_name: newPlaylist, user_id: userId})
     },
 
+    //delete playlist
+    deletePlaylist(id) {
+        const query = `
+        DELETE FROM  Playlist 
+        WHERE id=@id`
+        return run(query, id)
+    },
+
+
     // add song to playlist
-    insertSong(addedSong) {
-        const query = `INSERT INTO Song(Song_name, Artist, Album, user_id, playlist_id) VALUES(@Song_name, @Artist, @Album, @user_id, @playlist_id)`
-        return run(query, addedSong)
+    insertSong(playlistId, addedSong) {
+        const query = `
+        INSERT INTO CrossTable (playlist_id, song_id)
+        VALUES (@playlistId, @songId)`
+        return run(query, {playlistId:playlistId, songId:addedSong})
+    },
+
+    //delete song from user playlist
+    deleteSong(deletedSong) {
+        const query = `
+        DELETE FROM CrossTable
+        WHERE song_id=@song_id  `
+        return run(query, deletedSong)
     }
 }
+
 
 // function to convert duplicated user rows when using the all() function
 // into separate user rows with playlists in an array

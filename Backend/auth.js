@@ -7,20 +7,20 @@ function login(req, res) {
   //looks into req and assigns username and password
   const username = req.body.username;
   const password = req.body.password;
-  console.log(password,'password')
+  console.log(password, 'password')
 
   const user = conn.getUserByUsername(username);
-  console.log(user,'user')
+  console.log(user, 'user')
   //checking if user exists in the database
-  if(user){
+  if (user) {
     //if user exists, compare hashed passsword
     const validPassword = bcrypt.compareSync(password, user.Password);
-    console.log(validPassword,'VALIDPASSWORD');
+    console.log(validPassword, 'VALIDPASSWORD');
     //if password does not match return invalid credentials
-    if(!validPassword){
+    if (!validPassword) {
       res.status(401).json({
-          status: 'failure',
-          message: "Invalid credentials"
+        status: 'failure',
+        message: "Invalid credentials"
       });
       //if password match assign JWT
     } else {
@@ -30,35 +30,60 @@ function login(req, res) {
       res.status(200).send({ success: true, token: token });
     }
     //if user doen not exist, return invalid credentials - no user provided
-  } else{
+  } else {
     res.status(401).json({
-        status: 'failure',
-        message: "Invalid credentials"
+      status: 'failure',
+      message: "Invalid credentials"
     });
   }
 }
 
 //RESTApi is stateless so we send header and check user is logged in
-function getLoginStatus(request, response) {
-  //making sure call comes from legitimate user
-  const token = request.header('Authorization').replace('Bearer ', '');
 
-  let result = { loggedIn: false };
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-  if (token) {
-    const tokenVerified = jwt.verify(token, config.secret);
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
 
-    console.log('JWT Verify:', tokenVerified);
+    jwt.verify(token, config.secret, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
 
-    //if token is not verified, user is not logged in yet,
-    //otherwise React can proceed
-    if (tokenVerified) {
-      result.loggedIn = true;
-    }
+      req.user = user;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
   }
+};
 
-  response.json(result);
-}
+
+
+
+/*  //making sure call comes from legitimate user
+function getLoginStatus(request, response) {
+ const token = request.header('Authorization').replace('Bearer ', '');
+ 
+ let result = { loggedIn: false };
+ 
+ if (token) {
+   const tokenVerified = jwt.verify(token, config.secret);
+ 
+   console.log('JWT Verify:', tokenVerified);
+ 
+   //if token is not verified, user is not logged in yet,
+   //otherwise React can proceed
+   if (tokenVerified) {
+     result.loggedIn = true;
+   }
+ }
+ 
+ response.json(result);
+} */
 
 exports.login = login;
-exports.getLoginStatus = getLoginStatus;
+exports.authenticateJWT = authenticateJWT;
+
+  //exports.getLoginStatus = getLoginStatus;

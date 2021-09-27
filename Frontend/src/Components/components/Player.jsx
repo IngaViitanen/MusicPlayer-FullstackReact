@@ -1,6 +1,6 @@
 import React, { useEffect,useRef } from "react";
 
-function Player({  onLoad }) {
+function Player({  onLoad, onStateChange }) {
   let player;
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function Player({  onLoad }) {
   // this function triggers when we change song in player
   // can be used to update things, like counters
   function onPlayerStateChange(event) {
-    if (event.data != YT.PlayerState.PLAYING) return;
+   onStateChange(event)
   }
 
   return <div id="yt-player"></div>;

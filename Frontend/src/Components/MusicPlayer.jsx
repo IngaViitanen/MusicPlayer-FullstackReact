@@ -201,7 +201,7 @@ function MusicPlayer() {
           <div className="d-flex flex-column justify-content-between">
             <div>
               <div className="d-flex justify-content-center">
-                <Player onLoad={onPlayerLoad} />
+                <Player onLoad={onPlayerLoad} onStateChange={onPlayerStateChange} />
                 {activeSong && (
                   <img
                     src={activeSong.image}
@@ -308,6 +308,15 @@ function MusicPlayer() {
       setItemList(artists);
     }
   }
+
+ 
+    function onPlayerStateChange(event) {
+      if(event.data == YT.PlayerState.ENDED || playerObj.current.getCurrentTime() >= playerObj.current.getDuration()) {
+       console.log('next song')
+        // autoplay next song
+        // return nextSong()
+      }
+    }
 
   /**
    * Initializes the player

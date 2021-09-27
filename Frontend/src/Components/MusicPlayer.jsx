@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState,useEffect,useRef } from "react";
+import { ACCESS_TOKEN_NAME, API_BASE_URL } from "../Constants/apiContants";
 import MediaItem from "./components/MediaItem";
 import {
   searchSongs,
@@ -7,6 +8,8 @@ import {
 } from "../servies/songServies";
 import Player from "./components/Player";
 import Playlist from "./components/Playlist";
+import ShowPlaylist from "./components/ShowPlaylist";
+import PlaylistModal from "./PlaylistModal";
 
 function MusicPlayer() {
   const [itemList, setItemList] = useState([]);
@@ -17,12 +20,25 @@ function MusicPlayer() {
   const [currentSongId, setCurrentSongId] = useState("");
   const [playingState, setPlayingState] = useState(false);
   const [activeSong, setActiveSong] = useState(null);
+  const [playlists,setPlaylists] = useState([]);
 
   const playerObj = useRef();
 
+  useEffect(()=> {
+    (async() => {
+      let response = await fetch(API_BASE_URL+"userplaylist", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
+        },
+      })
+      response = await response.json();
+      setPlaylists(response.PLAYLIST)
+    })();
+    
+  },[])
+
   return (
     <div className="container py-4">
-     <Playlist /> 
       <div className="row">
         <div className="col-md-6">
           <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -132,17 +148,17 @@ function MusicPlayer() {
               aria-labelledby="profile-tab"
             >
               <div id="accordion">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
+                <div className="card">
+                  <div className="card-header" id="headingOne">
+                    <h5 className="mb-0">
                       <div style={{ position: "absolute", right: "1rem" }}>
                         <button className="btn btn-sm btn-success">
                           <i className="fa fa-share-alt"></i>
                         </button>
-                        <button class="btn btn-sm btn-primary">
+                        <button className="btn btn-sm btn-primary">
                           <i className="fa fa-play"></i>
                         </button>
-                        <button class="btn btn-sm btn-danger">
+                        <button className="btn btn-sm btn-danger">
                           <i className="fa fa-trash"></i>
                         </button>
                       </div>
@@ -160,18 +176,18 @@ function MusicPlayer() {
 
                   <div
                     id="collapseOne"
-                    class="collapse show"
+                    className="collapse show"
                     aria-labelledby="headingOne"
                     data-parent="#accordion"
                   >
-                    <div class="card-body">
+                    <div className="card-body">
                       <MediaItem
                         active={false}
                         type="song"
                         title="Do for love"
                         artist="Tupac"
                         image="https://lh3.googleusercontent.com/RqxxrayOugwf0OTf…Fuz8JUhOOtBgBYzca_fHBgVSiAxa9QLG=w120-h120-l90-rj"
-                        id='1'
+                        id="1"
                         onClick={() => playNewSong(1)}
                       />
                     </div>
@@ -247,6 +263,24 @@ function MusicPlayer() {
                   >
                     <i className="fa fa-step-forward"></i>
                   </button>
+
+                  <button
+                    className="btn btn-primary rounded-circle btn-sm mx-3"
+                    type="button"
+                    data-toggle="modal"
+                    data-target=".bd-example-modal-sm"
+                  >
+                    <i className="fa fa-music"></i>
+                  </button>               
+                      <PlaylistModal>
+                        <Playlist
+                          onCreate={(newPlaylist) =>
+                            setPlaylists([newPlaylist, ...playlists])
+                          }
+                        />
+                        <ShowPlaylist playlists={playlists} />
+                      </PlaylistModal>
+          
                 </div>
               </div>
             )}
@@ -328,7 +362,7 @@ function MusicPlayer() {
     setTimeout(() => {
       setDuration(playerObj.current.getDuration());
       setCurrentTime(playerObj.current.getCurrentTime());
-      intervalPointer = counter();
+      // intervalPointer = counter();
     }, [3000]);
   }
 

@@ -50,10 +50,11 @@ module.exports = {
 
     // gets specific user by id and its playlists
     getUserById(id) {
-        let user = all(`SELECT User.*, p.Playlist_name, p.user_id AS playlist FROM User
+        let user = all(`SELECT User.*,p.id AS play_id,p.Playlist_name, p.user_id AS playlist FROM User
         LEFT JOIN PLAYLIST AS p
         ON user_id = User.id
-        WHERE User.id = @id`, { id: id })
+        WHERE User.id = @id
+        ORDER BY P.id DESC`, { id: id })
         return convertUserPlaylists(user)[0]
     },
 
@@ -94,33 +95,34 @@ module.exports = {
 
 // function to convert duplicated user rows when using the all() function
 // into separate user rows with playlists in an array
-function convertUserPlaylists(user) {
+function convertUserPlaylists(users) {
     // array to keep track of user ids
     const ids = []
     //array to store duplicated users
     const converted = []
 
-    for (let users of user) {
+    for (let user of users) {
         // check that we don't duplicate the user
-        if (!ids.includes(users.id)) {
+        if (!ids.includes(user.id)) {
             converted.push({
-                id: users.id,
-                FullName: users.FullName,
-                Username: users.Username,
-                Email: users.Email,
+                id: user.id,
+                FullName: user.FullName,
+                Username: user.Username,
+                Email: user.Email,
                 PLAYLIST: []
             })
         }
 
         // add id to the tracking list
-        ids.push(users.id)
+        ids.push(user.id)
 
-        if (users.playlist) {
+        if (user.playlist) {
             //get the last converted user and add playlists
             let convertedUser = converted[converted.length - 1]
             convertedUser.PLAYLIST.push({
-                Playlist_name: users.Playlist_name,
-                user_id: users.user_id
+                Playlist_name: user.Playlist_name,
+                user_id: user.id,
+                id:user.play_id
             })
         }
     }

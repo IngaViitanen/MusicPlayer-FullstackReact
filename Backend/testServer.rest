@@ -11,24 +11,24 @@ Content-Type: application/json
 
 ###
 
-//test to add playlist 
+//Create new playlist 
 POST http://localhost:4000/api/playlist
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjQwNjExMSwiZXhwIjoxNjMyNDkyNTExfQ.gnneYwxzn5yOUwkhKok7EWDBHeoKh4yFqpVh7au-Xd0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjU4NTAyNywiZXhwIjoxNjMyNjcxNDI3fQ.0Oyd1OAPs3vKkWOzpUw2-AmYDBeW2QtjyWa9jaCkoMY
 Content-Type: application/json
 
-{ "Playlist_name": "updatetest"}
+{ "Playlist_name": "test 3"}
 
 ###
 
 //test to get all users and playlists 
 GET http://localhost:4000/api/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImlhdCI6MTYzMjI1NDEwNCwiZXhwIjoxNjMyMzQwNTA0fQ.IeYwYabpgAAlWkc7GJcxZcxWQSoZ8GtM4tl6mPV0jpE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjU4NTAyNywiZXhwIjoxNjMyNjcxNDI3fQ.0Oyd1OAPs3vKkWOzpUw2-AmYDBeW2QtjyWa9jaCkoMY
 
 ###
 
-//test to get user by id and its playlists 
-GET http://localhost:4000/api/user/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImlhdCI6MTYzMjI1NDEwNCwiZXhwIjoxNjMyMzQwNTA0fQ.IeYwYabpgAAlWkc7GJcxZcxWQSoZ8GtM4tl6mPV0jpE
+//Get user by id and its playlists 
+GET http://localhost:4000/api/userplaylist
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjU4NTAyNywiZXhwIjoxNjMyNjcxNDI3fQ.0Oyd1OAPs3vKkWOzpUw2-AmYDBeW2QtjyWa9jaCkoMY
 
 ###
 

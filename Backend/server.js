@@ -41,9 +41,9 @@ app.get('/api/user', auth.authenticateJWT, (req, res) => {
     res.json(db.getUserPlaylists())
 }) */
 
-//get user by id and its playlists
-app.get('/api/user/:id', auth.authenticateJWT, (req, res) => {
-    let id = req.params.id
+//get users playlist by id
+app.get('/api/userplaylist', auth.authenticateJWT, (req, res) => {
+    let id = req.user.id
     res.json(db.getUserById(id))
 })
 
@@ -53,9 +53,11 @@ app.post('/api/playlist', auth.authenticateJWT, (req, res) => {
     let userId = req.user.id
     // inserts new playlist into the database PLAYLIST and sets its id to auto incremented id
     let insert = db.createNewPlaylist(newPlaylist, userId)
-    newPlaylist.id = insert.lastInsertRowid
-    //returns playlist with updated id
-    res.json({newPlaylist, userId})
+    res.json({
+      id: insert.lastInsertRowid,
+      Playlist_name: newPlaylist,
+      user_id:userId,
+    });
 })
 
 //delete playlist

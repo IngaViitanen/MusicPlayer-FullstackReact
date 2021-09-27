@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from "../../Constants/apiContants";
 
-function Playlist() {
+function Playlist({onCreate}) {
   const [playlistName, setPlaylistName] = useState("");
-  const [showInput, setShowInput] = useState("invisible");
+  const [showInput, setShowInput] = useState("d-none");
   const [isInvalid, setIsInvalid] = useState("");
-  const [invalidFeedback, setInvalidFeedback] = useState("invisible");
+  const [invalidFeedback, setInvalidFeedback] = useState("d-none");
 
   function addPlaylistToUser() {
     if (playlistName.length) {
@@ -28,40 +28,8 @@ function Playlist() {
           }
         )
         .then(function (response) {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.error("Error", error);
-        });
-      //Sends instructure to the user to add name to playlist if user try to send an emty inputfield
-    }
-    if (playlistName.length == 0) {
-      setIsInvalid("is-invalid");
-      setInvalidFeedback("invalid-feedback");
-    }
-  }
-
-  function deletePlaylist() {
-    if (playlistName.length) {
-      let name = playlistName;
-      console.log(name);
-      //Sends playlistname to backend endpoint api/playlist/:id
-      axios
-        .post(
-          API_BASE_URL + `playlist`,
-          {
-            Playlist_name: name,
-          },
-          {
-            //Gets access token from local storage
-            headers: {
-              Authorization:
-                "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
-            },
-          }
-        )
-        .then(function (response) {
-          console.log(response);
+          console.log(response,'response');
+          onCreate(response.data)
         })
         .catch((error) => {
           console.error("Error", error);
@@ -78,7 +46,7 @@ function Playlist() {
     <div className=" d-inline-flex flex-column mb-3">
       <button
         className="btn btn-primary mb-2"
-        onClick={() => setShowInput("visible")}
+        onClick={() => setShowInput("d-block")}
       >
         Create New Playlist
       </button>

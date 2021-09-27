@@ -1,6 +1,6 @@
 import React from "react";
 
-function MediaItem({ onClick, title, artist, id, image, type,active}) {
+function MediaItem({ onClick, title, artist, image, type,active}) {
   let classList = "list-group-item list-group-item-action justify-content-between";
   classList += active ? " active": "";
   return (

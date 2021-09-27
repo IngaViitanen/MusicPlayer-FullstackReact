@@ -37,3 +37,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6M
 Content-Type: application/json
 
 { "id": "5"}
+
+###
+POST http://localhost:4000/api/playlist/song
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjcyNTc1OSwiZXhwIjoxNjMyODEyMTU5fQ.r70BNdUYXLO4_-gLmt84EbcZuHTRjNDzsc5ym_I2vA4
+Content-Type: application/json
+
+{"playlist_id": "51", 
+"song_id": "N4KvafPbauw",
+"song_name": "Eet", 
+"artist": "Regina Spektor", 
+"album": "Far" }

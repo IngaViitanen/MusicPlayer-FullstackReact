@@ -75,13 +75,26 @@ module.exports = {
     },
 
 
-    // add song to playlist
+    // add song to crosstable
     insertSong(playlistId, addedSong) {
         const query = `
         INSERT INTO CrossTable (playlist_id, song_id)
-        VALUES (@playlistId, @songId)`
-        return run(query, {playlistId:playlistId, songId:addedSong})
+        VALUES (@playlist_id, @song_id)`
+        return run(query, {playlist_id: playlistId, song_id: addedSong})
     },
+    //add song to songtable
+    insertToSong(id, songName, artist, album) {
+        const query = `
+        INSERT INTO Song (id, song_name, artist, album) 
+        VALUES (@id, @song_name, @artist, @album) `
+        return run(query, {id: id, song_name: songName, artist: artist, album: album})
+    },
+    // insertSong(playlistId, addedSong) {
+    //     const query = `
+    //     INSERT INTO CrossTable (playlist_id, song_id)
+    //     VALUES (@playlist_id, @song_id)`
+    //     return run(query, {playlist_id: playlistId, song_id: addedSong})
+    // },
 
     //delete song from user playlist
     deleteSong(deletedSong) {

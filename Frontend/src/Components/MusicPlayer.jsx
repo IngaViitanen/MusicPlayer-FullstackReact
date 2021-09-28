@@ -66,7 +66,7 @@ function MusicPlayer() {
                 aria-controls="profile"
                 aria-selected="false"
               >
-                Playslists
+                Playlists
               </a>
             </li>
           </ul>
@@ -99,7 +99,7 @@ function MusicPlayer() {
                   <input type="radio" name="options" id="option1" />
                   Songs
                 </label>
-                <label
+                {/* <label
                   className="btn btn-primary"
                   onClick={() => onSearch("artist")}
                 >
@@ -110,8 +110,8 @@ function MusicPlayer() {
                     onClick={() => onSearch("artist")}
                   />
                   Artist
-                </label>
-                <label
+                </label> */}
+                 <label
                   className="btn btn-primary"
                   onClick={() => onSearch("album")}
                 >
@@ -122,7 +122,7 @@ function MusicPlayer() {
                     onClick={() => onSearch("album")}
                   />
                   Album
-                </label>
+                </label> 
               </div>
 
               <div className="songList">
@@ -199,8 +199,8 @@ function MusicPlayer() {
           </div>
         </div>
         <div className="col-md-6">
-          <div className="fixed-bottom">
-          <div className="playercss">
+        <div className="fixed-bottom">
+         <div className="playercss">
             <div>
               <div className="d-flex justify-content-center">
                 <Player onLoad={onPlayerLoad} onStateChange={onPlayerStateChange} />
@@ -215,17 +215,18 @@ function MusicPlayer() {
                 )} */}
               </div>
               <div className="d-flex justify-content-center">
-                <h3 >{activeSong?.title}</h3>
+                <h3 className="playercss" >{activeSong?.title}</h3>
               </div>
               <div className="d-flex justify-content-center">
                 <h5>{activeSong?.artist}</h5>
               </div>
               {activeSong && (
                 <div className="d-flex mt-4">
-                  <span className="" style={{ flex: 1 }}>
-                    {timeFormater(currentTime)}
+                  <span className="" style={{ flex: 1, textAlign: "end", padding:"0rem 2rem",  color: "white"}}>
+                    {timeFormater(currentTime)
+}
                   </span>
-                  <div className="" style={{ flex: 7, marginTop: "5px" }}>
+                  <div className="" style={{ flex: 4, marginTop: "5px" }}>
                     <input
                       value={currentTime}
                       type="range"
@@ -236,15 +237,18 @@ function MusicPlayer() {
                       onChange={(e) => updateProgress(e.target.value)}
                     ></input>
                   </div>
-                  <span style={{ flex: 1, textAlign: "end" }}>
+                  <span style={{ flex: 1, textAlign: "start", padding:"0rem 2rem", color: "white" }}>
                     {timeFormater(duration)}
                   </span>
                 </div>
               )}
             </div>
             {activeSong && (
-              <div className="d-flex justify-content-center pt-5">
+              <div className="d-flex justify-content-center pt-5 btn-center">
                 <div>
+                <button
+                    className="btn rounded-circle btn-sm mx-3" style={{backgroundColor:"rgb(13, 66, 136)"}}
+                  />
                   <button
                     className="btn btn-primary rounded-circle btn-lg"
                     onClick={() => prevNextSong(false)}

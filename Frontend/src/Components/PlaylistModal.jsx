@@ -12,7 +12,7 @@ function PlaylistModal({ children }) {
         <div className="modal-dialog modal-sm">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
+              <h5 className="modal-title" id="exampleModalLabel" style={{color: "#222"}}>
                 Save to playlist
               </h5>
               <button

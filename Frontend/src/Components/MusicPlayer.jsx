@@ -10,6 +10,7 @@ import Player from "./components/Player";
 import Playlist from "./components/Playlist";
 import ShowPlaylist from "./components/ShowPlaylist";
 import PlaylistModal from "./PlaylistModal";
+import './musicplayer.css';
 
 function MusicPlayer() {
   const [itemList, setItemList] = useState([]);
@@ -19,7 +20,7 @@ function MusicPlayer() {
   const [duration, setDuration] = useState("");
   const [currentSongId, setCurrentSongId] = useState("");
   const [playingState, setPlayingState] = useState(false);
-  const [activeSong, setActiveSong] = useState(null);
+  const [activeSong, setActiveSong] = useState({});
   const [playlists,setPlaylists] = useState([]);
 
   const playerObj = useRef();
@@ -198,22 +199,23 @@ function MusicPlayer() {
           </div>
         </div>
         <div className="col-md-6">
-          <div className="d-flex flex-column justify-content-between">
+          <div className="fixed-bottom">
+          <div className="playercss">
             <div>
               <div className="d-flex justify-content-center">
                 <Player onLoad={onPlayerLoad} onStateChange={onPlayerStateChange} />
-                {activeSong && (
+                {/* {activeSong && (
                   <img
                     src={activeSong.image}
                     alt=""
                     height="auto"
-                    width="60%"
+                    width="20%"
                     className="img img-thumbnail"
                   />
-                )}
+                )} */}
               </div>
               <div className="d-flex justify-content-center">
-                <h3>{activeSong?.title}</h3>
+                <h3 >{activeSong?.title}</h3>
               </div>
               <div className="d-flex justify-content-center">
                 <h5>{activeSong?.artist}</h5>
@@ -284,6 +286,7 @@ function MusicPlayer() {
                 </div>
               </div>
             )}
+          </div>
           </div>
         </div>
       </div>

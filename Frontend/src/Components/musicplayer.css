@@ -1,7 +1,9 @@
 .playercss {
     background-color: rgb(13, 66, 136);
     padding: 0.5rem 0.5rem 1rem 0.5rem ;
-    
+    line-height: 1;
+    font-size: 1.5rem;
+    color: #fff;    
 }
 
 .fixed-bottom {
@@ -14,13 +16,6 @@
 
 .mt-4{
     margin-top: 0.2rem!important;
-}
-
-
-h3 {
-    line-height: 1;
-    font-size: 1.5rem;
-    color: #fff;
 }
 
 h5 {

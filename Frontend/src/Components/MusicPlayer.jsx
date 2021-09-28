@@ -3,8 +3,7 @@ import { ACCESS_TOKEN_NAME, API_BASE_URL } from "../Constants/apiContants";
 import MediaItem from "./components/MediaItem";
 import {
   searchSongs,
-  searchArtists,
-  searchAlbums,
+  searchArtists
 } from "../servies/songServies";
 import Player from "./components/Player";
 import Playlist from "./components/Playlist";
@@ -99,7 +98,7 @@ function MusicPlayer() {
                   <input type="radio" name="options" id="option1" />
                   Songs
                 </label>
-                {/* <label
+                <label
                   className="btn btn-primary"
                   onClick={() => onSearch("artist")}
                 >
@@ -110,8 +109,8 @@ function MusicPlayer() {
                     onClick={() => onSearch("artist")}
                   />
                   Artist
-                </label> */}
-                 <label
+                </label>
+                 {/* <label
                   className="btn btn-primary"
                   onClick={() => onSearch("album")}
                 >
@@ -122,7 +121,7 @@ function MusicPlayer() {
                     onClick={() => onSearch("album")}
                   />
                   Album
-                </label> 
+                </label>  */}
               </div>
 
               <div className="songList">
@@ -307,9 +306,6 @@ function MusicPlayer() {
     if (type == "song") {
       let songs = await searchSongs(title);
       setItemList(songs);
-    } else if (type == "album") {
-      let albums = await searchAlbums(title);
-      setItemList(albums);
     } else if (type == "artist") {
       let artists = await searchArtists(title);
       setItemList(artists);

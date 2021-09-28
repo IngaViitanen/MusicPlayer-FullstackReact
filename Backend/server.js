@@ -92,12 +92,14 @@ app.post('/api/playlist/song', auth.authenticateJWT, (req, res) => {
         let album = req.body.album
         //inserts song into the playlist and sets its id to auto incremented id
         let insertedSong = db.insertToSong(id, songName, artist, album)
-        res.json(insertedSong)
+        //res.json(insertedSong)
  // inserts song into the playlist and sets its id to auto incremented id
             let insert = db.insertSong(playlistId, addedSong)
             addedSong.id = insert.lastInsertRowid
+
+        let object = {insertedSong, addedSong}
            
-            res.json(addedSong)
+            res.json(object)
     }
     
 })

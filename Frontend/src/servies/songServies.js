@@ -26,16 +26,16 @@ export async function searchArtists(title) {
   }));
 }
 
-export async function searchAlbums(title) {
-  let response = await fetch(
-    `https://yt-music-api.herokuapp.com/api/yt/albums/${title}`
-  );
-  response = await response.json();
-  return response.content.map((album) => ({
-    active: false,
-    title: album.name,
-    id: album.browseId,
-    artist: album.artist,
-    image: album.thumbnails[1].url,
-  }));
-}
+// export async function searchAlbums(title) {
+//   let response = await fetch(
+//     `https://yt-music-api.herokuapp.com/api/yt/albums/${title}`
+//   );
+//   response = await response.json();
+//   return response.content.map((album) => ({
+//     active: false,
+//     title: album.name,
+//     id: album.browseId,
+//     artist: album.artist,
+//     image: album.thumbnails[1].url,
+//   }));
+// }

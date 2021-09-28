@@ -20,13 +20,30 @@ function Header(props) {
                     <button className="btn-logout" onClick={() => handleLogout()}>Logout</button>
                 </div>
             )
-        }
+        } else if (props.location.pathname === '/'){
+            return(
+                         <div className="ml-auto">
+                             <button className="btn-login" onClick={() => handleLogin()}>Login</button>
+                             <button className="btn-register" onClick={() => handleRegister()}>Register</button>
+                         </div>
+            )}
+        
     }
+
+
 
     //handleLogout destroys session token on the client-side and redirects user to the login page
     function handleLogout() {
         localStorage.removeItem(ACCESS_TOKEN_NAME)
         props.history.push('/login')
+    }
+
+    function handleLogin() {
+        props.history.push('/login')
+    }
+
+    function handleRegister() {
+        props.history.push('/register')
     }
     
     return(

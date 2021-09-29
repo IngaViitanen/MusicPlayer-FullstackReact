@@ -22,13 +22,13 @@ Content-Type: application/json
 
 //test to get all users and playlists 
 GET http://localhost:4000/api/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjU4NTAyNywiZXhwIjoxNjMyNjcxNDI3fQ.0Oyd1OAPs3vKkWOzpUw2-AmYDBeW2QtjyWa9jaCkoMY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjg5NzY2NywiZXhwIjoxNjMyOTg0MDY3fQ.2xJPMDiwgUywJLioEko09e38bfynvWuR-OsoCsXQdE8
 
 ###
 
 //Get user by id and its playlists 
 GET http://localhost:4000/api/userplaylist
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjcyMDc2MywiZXhwIjoxNjMyODA3MTYzfQ.Km0FURf65kxBES4AGE06mIAaIH2WFMbr0yN2GPfGLSY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjg5NzY2NywiZXhwIjoxNjMyOTg0MDY3fQ.2xJPMDiwgUywJLioEko09e38bfynvWuR-OsoCsXQdE8
 
 ###
 
@@ -46,10 +46,10 @@ Content-Type: application/json
 
 ###
 POST http://localhost:4000/api/user/playlist/song
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjgwNTM5OCwiZXhwIjoxNjMyODkxNzk4fQ.eENb1qL-AoHh5CXC1yNfVO3noR84KR3h9y5rqS36Epk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjg5NzY2NywiZXhwIjoxNjMyOTg0MDY3fQ.2xJPMDiwgUywJLioEko09e38bfynvWuR-OsoCsXQdE8
 Content-Type: application/json
 
 { 
-"id": 52,
-"song":{"songName":"Hello world", "artist":"Nur Egal", "album":"First album", "image":"no image","songId":"78"}
+"playlistId": 51,
+"song":{"songName":"test song 2", "artist":"Nur Egal", "album":"First album", "image":"no image","songId":"test2"}
 }

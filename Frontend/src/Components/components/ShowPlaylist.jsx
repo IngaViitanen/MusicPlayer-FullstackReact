@@ -1,28 +1,45 @@
-import React from "react";
+import React,{useState} from "react";
 // import { ACCESS_TOKEN_NAME, API_BASE_URL } from "../../Constants/apiContants";
 
-function ShowPlaylist({ playlists }) {
-  console.log(playlists)
+function ShowPlaylist({ playlists, addSongPlaylist }) {
+  const [playlistId,setPlaylistId] = useState();
+
+  function handleRadioSelect(event) {
+    setPlaylistId(event.target.value);
+  }
+
+  function saveSongplaylist(e) {
+    e.preventDefault();
+    addSongPlaylist(playlistId);
+  }
 
   return (
-    <ul className="list-group">
-      {playlists.map((playlist) => (
-        <li key={playlist.id} className="list-group-item">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="exampleRadios"
-              id={"playlist" + playlist.id}
-              value="option1"
-            />
-            <label className="form-check-label" htmlFor={"playlist" + playlist.id}>
-              {playlist.Playlist_name}
-            </label>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <form onSubmit={saveSongplaylist}>
+      <ul className="list-group" onChange={handleRadioSelect}>
+        {playlists.map((playlist) => (
+          <li key={playlist.id} className="list-group-item">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="playlistRadio"
+                id={"playlist" + playlist.id}
+                value={playlist.id}
+              />
+              <label
+                className="form-check-label"
+                htmlFor={"playlist" + playlist.id}
+              >
+                {playlist.Playlist_name}
+              </label>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button type="submit" className="btn btn-primary">
+        Add to playlist
+      </button>
+    </form>
   );
 }
 

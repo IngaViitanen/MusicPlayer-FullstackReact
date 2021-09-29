@@ -5,11 +5,11 @@ export async function searchSongs(title) {
     `https://yt-music-api.herokuapp.com/api/yt/songs/${title}`
   );
   response = await response.json();
-  console.log(response.content, "response.content");
   return response.content.map((song) => ({
     active: false,
     id: song.videoId,
     title: song.name,
+    album: song.album.name,
     artist: song.artist.name,
     image: song.thumbnails[1].url,
   }));

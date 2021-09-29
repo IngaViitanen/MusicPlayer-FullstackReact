@@ -11,7 +11,6 @@ function Playlist({onCreate}) {
   function addPlaylistToUser() {
     if (playlistName.length) {
       let name = playlistName;
-      console.log(name);
       //Sends playlistname to backend endpoint api/playlist/:id
       axios
         .post(
@@ -28,7 +27,6 @@ function Playlist({onCreate}) {
           }
         )
         .then(function (response) {
-          console.log(response,'response');
           let songArray = response.data.map((item) => {
             item.songs = [];
             return item;

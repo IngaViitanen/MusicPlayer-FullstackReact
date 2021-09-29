@@ -25,11 +25,11 @@ function PlaylistModal({ children }) {
               </button>
             </div>
             <div className="modal-body">{children}</div>
-            <div className="modal-footer">
+            {/* <div className="modal-footer">
               <button type="button" className="btn btn-primary">
                 Add to playlist
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

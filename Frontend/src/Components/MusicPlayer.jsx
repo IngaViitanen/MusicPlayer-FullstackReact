@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from "../Constants/apiContants";
 import MediaItem from "./components/MediaItem";
 import {
@@ -32,12 +33,10 @@ function MusicPlayer() {
         },
       });
       response = await response.json();
-      console.log(response, "response from userplaylist");
       let songArray = response.PLAYLIST.map((item) => {
         item.songs = [];
         return item;
       });
-      console.log(songArray);
       setPlaylists(songArray);
     })();
   }, []);
@@ -291,7 +290,10 @@ function MusicPlayer() {
                         setPlaylists([newPlaylist, ...playlists])
                       }
                     />
-                    <ShowPlaylist playlists={playlists} />
+                    <ShowPlaylist
+                      playlists={playlists}
+                      addSongPlaylist={addSongPlaylist}
+                    />
                   </PlaylistModal>
                 </div>
               </div>
@@ -310,7 +312,6 @@ function MusicPlayer() {
     setType(type);
     if (type == "song") {
       let songs = await searchSongs(title);
-      console.log(songs, "songs");
       setItemList(songs);
     } else if (type == "artist") {
       let artists = await searchArtists(title);
@@ -323,7 +324,6 @@ function MusicPlayer() {
       event.data == YT.PlayerState.ENDED ||
       playerObj.current.getCurrentTime() >= playerObj.current.getDuration()
     ) {
-      console.log("next song");
       // autoplay next song
       // return nextSong()
     }
@@ -382,7 +382,7 @@ function MusicPlayer() {
     setTimeout(() => {
       setDuration(playerObj.current.getDuration());
       setCurrentTime(playerObj.current.getCurrentTime());
-      counter()
+      counter();
     }, [3000]);
   }
 
@@ -432,6 +432,38 @@ function MusicPlayer() {
       return playlist;
     });
     setPlaylists(filtedPlaylist);
+  }
+
+  async function addSongPlaylist(playlistId) {
+    let querySong = {
+      songName: activeSong.title,
+      artist: activeSong.artist,
+      album: activeSong.album,
+      image: activeSong.image,
+      songId: activeSong.id,
+    };
+    //  let response = await fetch(`${API_BASE_URL}user/playlist/song`, {
+    //    headers: {
+    //      'Content-type':'application/json',
+    //      Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
+    //    },
+    //    method: 'POST',
+    //    body: JSON.stringify({playlistId,song:querySong})
+    //  });
+    //  response = await response.json();
+    //  console.log(response);
+
+    axios({
+      method: "POST",
+      url: API_BASE_URL + "user/playlist/song",
+      data: { playlistId, song: querySong },
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
+      },
+    }).then((response) => {
+      console.log(response);
+    });
   }
 }
 

@@ -41,12 +41,22 @@ module.exports = {
     },
 
     // Add song to playlist
-    addSongPlaylist(newSong,playlistId) {
-        const query = `INSERT INTO Song(Song_name, Artist, Album, image,songId) VALUES(@songName, @artist, @album, @image,@songId)`;
-        const song = run(query, newSong);
+    addSongPlaylist(newSong,playlistId,id) {
+        const songQuery = `SELECT songId,id FROM Song WHERE songId = @songId`
+         let song = all(songQuery,{songId:newSong.songId});
+         console.log(song)
+         if(song.length) {
+               const crossQuery = `SELECT playlist_id,song_id FROM CrossTable WHERE song_id = @songId AND playlist_id = @playlistId`;
+               const songInPlaylist = all(crossQuery, { songId: song[0].id,playlistId});
+               if(songInPlaylist.length) return null;
+         } else {
+             const query = `INSERT INTO Song(Song_name, Artist, Album, image,songId) VALUES(@songName, @artist, @album, @image,@songId)`;
+             const returnData = run(query, newSong);
+            song = [{id:returnData.lastInsertRowid}]
+         }
         const queryCross = `INSERT INTO CrossTable(playlist_id,song_id) VALUES(@playlistId, @songId)`;
-        run(queryCross, { songId: song.lastInsertRowid,playlistId:playlistId});
-        return song
+        run(queryCross, { songId: song[0].id,playlistId:playlistId});
+        return newSong
     },
 
     // gets all users and their playlists

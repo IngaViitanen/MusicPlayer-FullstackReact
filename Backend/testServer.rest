@@ -36,7 +36,7 @@ DELETE   http://localhost:4000/api/playlist
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjkyNjA3NCwiZXhwIjoxNjMzMDEyNDc0fQ.KrCLU1VxqtUJSKLTyjefPxhDxHTWRKR1JeL6FCcWGp4
 Content-Type: application/json
 
-{ "id": "64" }
+{ "id": "69" }
 
 ###
 GET http://localhost:4000/api/user/playlist/song/51

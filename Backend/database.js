@@ -95,7 +95,7 @@ module.exports = {
     },
 
     //delete playlist
-    deletePlaylist(id, userId) {
+    deletePlaylist(id) {
         const query = `
         DELETE FROM PLAYLIST 
         WHERE id = @id`

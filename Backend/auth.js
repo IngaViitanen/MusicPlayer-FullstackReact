@@ -42,6 +42,7 @@ function login(req, res) {
 
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
+  
 
   if (authHeader) {
     const token = authHeader.split(' ')[1];
@@ -50,7 +51,7 @@ const authenticateJWT = (req, res, next) => {
       if (err) {
         return res.sendStatus(403);
       }
-
+      
       req.user = user;
       next();
     });

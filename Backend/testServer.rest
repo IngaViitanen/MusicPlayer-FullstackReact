@@ -28,7 +28,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6M
 
 //Get user by id and its playlists 
 GET http://localhost:4000/api/userplaylist
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjU4NTAyNywiZXhwIjoxNjMyNjcxNDI3fQ.0Oyd1OAPs3vKkWOzpUw2-AmYDBeW2QtjyWa9jaCkoMY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjcyMDc2MywiZXhwIjoxNjMyODA3MTYzfQ.Km0FURf65kxBES4AGE06mIAaIH2WFMbr0yN2GPfGLSY
 
 ###
 
@@ -37,3 +37,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6M
 Content-Type: application/json
 
 { "id": "5"}
+
+###
+GET http://localhost:4000/api/user/playlist/song/51
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjcyMDc2MywiZXhwIjoxNjMyODA3MTYzfQ.Km0FURf65kxBES4AGE06mIAaIH2WFMbr0yN2GPfGLSY
+Content-Type: application/json
+
+
+###
+POST http://localhost:4000/api/user/playlist/song
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjgwNTM5OCwiZXhwIjoxNjMyODkxNzk4fQ.eENb1qL-AoHh5CXC1yNfVO3noR84KR3h9y5rqS36Epk
+Content-Type: application/json
+
+{ 
+"id": 52,
+"song":{"songName":"Hello world", "artist":"Nur Egal", "album":"First album", "image":"no image","songId":"78"}
+}

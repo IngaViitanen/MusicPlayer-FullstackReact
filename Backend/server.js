@@ -78,14 +78,26 @@ app.delete('/api/playlist', auth.authenticateJWT,(req, res) => {
 })
 
 // add song to user playlist
-app.post('/api/user/playlist/:id/song', auth.authenticateJWT, (req, res) => {
-    let playlistId = req.params.id
-    let addedSong = req.body.song_id
+app.post('/api/user/playlist/song', auth.authenticateJWT, (req, res) => {
+    let playlistId = req.body.id
+    let addedSong = req.body.song
     // inserts song into the playlist and sets its id to auto incremented id
-    let insert = db.insertSong(playlistId, addedSong)
-    addedSong.id = insert.lastInsertRowid
+    let insert = db.addSongPlaylist(addedSong,playlistId);
+    let songId = insert.lastInsertRowid
     //returns song with updated id
-    res.json(addedSong)
+    res.json(songId)
+})
+
+
+
+// Get songs from playlist
+app.get('/api/user/playlist/song/:id', auth.authenticateJWT, (req, res) => {
+    let playlistId = req.params.id
+    // inserts song into the playlist and sets its id to auto incremented id
+    let songs = db.getPlaylistSongs(playlistId);
+
+    //returns song with updated id
+    res.json(songs)
 })
 
 //delete song from user playlist

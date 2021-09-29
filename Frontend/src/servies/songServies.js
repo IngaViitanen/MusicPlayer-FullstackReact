@@ -1,9 +1,11 @@
+import { ACCESS_TOKEN_NAME, API_BASE_URL } from "../Constants/apiContants";
+
 export async function searchSongs(title) {
   let response = await fetch(
     `https://yt-music-api.herokuapp.com/api/yt/songs/${title}`
   );
   response = await response.json();
-  console.log(response.content);
+  console.log(response.content, "response.content");
   return response.content.map((song) => ({
     active: false,
     id: song.videoId,
@@ -26,16 +28,12 @@ export async function searchArtists(title) {
   }));
 }
 
-export async function searchAlbums(title) {
-  let response = await fetch(
-    `https://yt-music-api.herokuapp.com/api/yt/albums/${title}`
-  );
+export async function searchPlaylistSongs(id) {
+  let response = await fetch(`${API_BASE_URL}/user/playlist/song/${id}`, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
+    },
+  });
   response = await response.json();
-  return response.content.map((album) => ({
-    active: false,
-    title: album.name,
-    id: album.browseId,
-    artist: album.artist,
-    image: album.thumbnails[1].url,
-  }));
+  return response
 }

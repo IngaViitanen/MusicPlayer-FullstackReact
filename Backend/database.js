@@ -40,12 +40,30 @@ module.exports = {
         return run(query, newUser)
     },
 
+    // Add song to playlist
+    addSongPlaylist(newSong,playlistId) {
+        const query = `INSERT INTO Song(Song_name, Artist, Album, image,songId) VALUES(@songName, @artist, @album, @image,@songId)`;
+        const song = run(query, newSong);
+        const queryCross = `INSERT INTO CrossTable(playlist_id,song_id) VALUES(@playlistId, @songId)`;
+        run(queryCross, { songId: song.lastInsertRowid,playlistId:playlistId});
+        return song
+    },
+
     // gets all users and their playlists
     getUserPlaylists() {
         let user = all(`SELECT User.*, p.Playlist_name, p.user_id AS playlist FROM User
         LEFT JOIN PLAYLIST AS p
         ON user_id = User.id`)
         return convertUserPlaylists(user)
+    },
+
+    // gets all playlist songs
+    getPlaylistSongs(id) {
+        let user = all(`SELECT * FROM Song AS s
+        LEFT JOIN CrossTable AS c
+        ON c.song_id = s.id
+        WHERE c.playlist_id = @id`,{ id: id })
+        return user;
     },
 
     // gets specific user by id and its playlists

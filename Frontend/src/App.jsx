@@ -32,8 +32,8 @@ function App() {
             </Route>
     {/* using PrivateRoute to make sure that the homepage is only accessible when a token is present on client-side */}
             <PrivateRoute path="/home">
-            <MusicPlayer />
               <Home />
+            <MusicPlayer />
             </PrivateRoute>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage} />

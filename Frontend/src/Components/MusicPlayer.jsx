@@ -1,10 +1,10 @@
-import React, { useState,useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from "../Constants/apiContants";
 import MediaItem from "./components/MediaItem";
 import {
   searchSongs,
   searchArtists,
-  searchAlbums,
+  searchPlaylistSongs,
 } from "../servies/songServies";
 import Player from "./components/Player";
 import Playlist from "./components/Playlist";
@@ -20,27 +20,34 @@ function MusicPlayer() {
   const [currentSongId, setCurrentSongId] = useState("");
   const [playingState, setPlayingState] = useState(false);
   const [activeSong, setActiveSong] = useState(null);
-  const [playlists,setPlaylists] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
 
   const playerObj = useRef();
 
-  useEffect(()=> {
-    (async() => {
-      let response = await fetch(API_BASE_URL+"userplaylist", {
+  useEffect(() => {
+    (async () => {
+      let response = await fetch(API_BASE_URL + "userplaylist", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
         },
-      })
+      });
       response = await response.json();
-      setPlaylists(response.PLAYLIST)
+      console.log(response, "response from userplaylist");
+      let songArray = response.PLAYLIST.map((item) => {
+        item.songs = [];
+        return item;
+      });
+      console.log(songArray);
+      setPlaylists(songArray);
     })();
-    
-  },[])
+  }, []);
 
   return (
     <div className="container py-4">
       <div className="row">
+        {/* Tabs starts here */}
         <div className="col-md-6">
+          {/* nav-tabs */}
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
               <a
@@ -69,13 +76,16 @@ function MusicPlayer() {
               </a>
             </li>
           </ul>
+          {/* tabs content */}
           <div className="tab-content" id="myTabContent">
+            {/* song tab content */}
             <div
               className="tab-pane fade show active"
               id="home"
               role="tabpanel"
               aria-labelledby="home-tab"
             >
+              {/* Input for search songs */}
               <div className="input-group">
                 <input
                   type="text"
@@ -86,7 +96,7 @@ function MusicPlayer() {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-
+              {/* Song/artists button */}
               <div
                 className="btn-group btn-group-toggle mb-4 "
                 data-toggle="buttons"
@@ -102,28 +112,11 @@ function MusicPlayer() {
                   className="btn btn-primary"
                   onClick={() => onSearch("artist")}
                 >
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option2"
-                    onClick={() => onSearch("artist")}
-                  />
+                  <input type="radio" name="options" id="option2" />
                   Artist
                 </label>
-                <label
-                  className="btn btn-primary"
-                  onClick={() => onSearch("album")}
-                >
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option3"
-                    onClick={() => onSearch("album")}
-                  />
-                  Album
-                </label>
               </div>
-
+              {/* Songs list */}
               <div className="songList">
                 <div className="list-group">
                   {itemList.map((song, index) => (
@@ -141,6 +134,7 @@ function MusicPlayer() {
                 </div>
               </div>
             </div>
+            {/* PLAYLIST TAB CONTENT*/}
             <div
               className="tab-pane fade"
               id="profile"
@@ -148,60 +142,76 @@ function MusicPlayer() {
               aria-labelledby="profile-tab"
             >
               <div id="accordion">
-                <div className="card">
-                  <div className="card-header" id="headingOne">
-                    <h5 className="mb-0">
-                      <div style={{ position: "absolute", right: "1rem" }}>
-                        <button className="btn btn-sm btn-success">
-                          <i className="fa fa-share-alt"></i>
-                        </button>
-                        <button className="btn btn-sm btn-primary">
-                          <i className="fa fa-play"></i>
-                        </button>
-                        <button className="btn btn-sm btn-danger">
-                          <i className="fa fa-trash"></i>
-                        </button>
-                      </div>
-                      <div
-                        className="btn btn-link d-flex justify-content-between"
-                        data-toggle="collapse"
-                        data-target="#collapseOne"
-                        aria-expanded="true"
-                        aria-controls="collapseOne"
-                      >
-                        <span>My favorit Songs</span>
-                      </div>
-                    </h5>
-                  </div>
+                {playlists.map((playlist) => (
+                  <div className="card">
+                    <div className="card-header" id="headingOne">
+                      <h5 className="mb-0">
+                        <div style={{ position: "absolute", right: "1rem" }}>
+                          <button className="btn btn-sm btn-success">
+                            <i className="fa fa-share-alt"></i>
+                          </button>
+                          <button className="btn btn-sm btn-primary">
+                            <i className="fa fa-play"></i>
+                          </button>
+                          <button className="btn btn-sm btn-danger">
+                            <i className="fa fa-trash"></i>
+                          </button>
+                        </div>
+                        <div
+                          onClick={() => onPlaylistClick(playlist.id)}
+                          className="btn btn-link d-flex justify-content-between"
+                          data-toggle="collapse"
+                          data-target={"#playlist-accordion-" + playlist.id}
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        >
+                          <span>{playlist.Playlist_name}</span>
+                        </div>
+                      </h5>
+                    </div>
 
-                  <div
-                    id="collapseOne"
-                    className="collapse show"
-                    aria-labelledby="headingOne"
-                    data-parent="#accordion"
-                  >
-                    <div className="card-body">
-                      <MediaItem
-                        active={false}
-                        type="song"
-                        title="Do for love"
-                        artist="Tupac"
-                        image="https://lh3.googleusercontent.com/RqxxrayOugwf0OTf…Fuz8JUhOOtBgBYzca_fHBgVSiAxa9QLG=w120-h120-l90-rj"
-                        id="1"
-                        onClick={() => playNewSong(1)}
-                      />
+                    <div
+                      id={"playlist-accordion-" + playlist.id}
+                      className="collapse"
+                      aria-labelledby="headingOne"
+                      data-parent="#accordion"
+                    >
+                      <div className="card-body">
+                        {playlist.songs?.length ? (
+                          playlist.songs.map((song) => (
+                            <MediaItem
+                              active={false}
+                              type="song"
+                              title={song.Song_name}
+                              artist={song.Artist}
+                              image={song.image}
+                              id={song.songId}
+                              onClick={() => playNewSong(song.songId)}
+                            />
+                          ))
+                        ) : (
+                          <p className="text-center">
+                            No songs in this playlist
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
+        {/* Music player starts here*/}
         <div className="col-md-6">
           <div className="d-flex flex-column justify-content-between">
             <div>
+              {/* Musicplayer and artist picture */}
               <div className="d-flex justify-content-center">
-                <Player onLoad={onPlayerLoad} onStateChange={onPlayerStateChange} />
+                <Player
+                  onLoad={onPlayerLoad}
+                  onStateChange={onPlayerStateChange}
+                />
                 {activeSong && (
                   <img
                     src={activeSong.image}
@@ -218,6 +228,7 @@ function MusicPlayer() {
               <div className="d-flex justify-content-center">
                 <h5>{activeSong?.artist}</h5>
               </div>
+              {/* PROGRESS BAR STARTS*/}
               {activeSong && (
                 <div className="d-flex mt-4">
                   <span className="" style={{ flex: 1 }}>
@@ -239,7 +250,9 @@ function MusicPlayer() {
                   </span>
                 </div>
               )}
+              {/* PROGRESS BAR ENDS*/}
             </div>
+            {/* PREV,PLAY,PAUSE,NEXT BUTTONS */}
             {activeSong && (
               <div className="d-flex justify-content-center pt-5">
                 <div>
@@ -271,16 +284,15 @@ function MusicPlayer() {
                     data-target=".bd-example-modal-sm"
                   >
                     <i className="fa fa-music"></i>
-                  </button>               
-                      <PlaylistModal>
-                        <Playlist
-                          onCreate={(newPlaylist) =>
-                            setPlaylists([newPlaylist, ...playlists])
-                          }
-                        />
-                        <ShowPlaylist playlists={playlists} />
-                      </PlaylistModal>
-          
+                  </button>
+                  <PlaylistModal>
+                    <Playlist
+                      onCreate={(newPlaylist) =>
+                        setPlaylists([newPlaylist, ...playlists])
+                      }
+                    />
+                    <ShowPlaylist playlists={playlists} />
+                  </PlaylistModal>
                 </div>
               </div>
             )}
@@ -295,28 +307,27 @@ function MusicPlayer() {
    * @param {string} type
    */
   async function onSearch(type) {
-    // console.log(type)
     setType(type);
     if (type == "song") {
       let songs = await searchSongs(title);
+      console.log(songs, "songs");
       setItemList(songs);
-    } else if (type == "album") {
-      let albums = await searchAlbums(title);
-      setItemList(albums);
     } else if (type == "artist") {
       let artists = await searchArtists(title);
       setItemList(artists);
     }
   }
 
- 
-    function onPlayerStateChange(event) {
-      if(event.data == YT.PlayerState.ENDED || playerObj.current.getCurrentTime() >= playerObj.current.getDuration()) {
-       console.log('next song')
-        // autoplay next song
-        // return nextSong()
-      }
+  function onPlayerStateChange(event) {
+    if (
+      event.data == YT.PlayerState.ENDED ||
+      playerObj.current.getCurrentTime() >= playerObj.current.getDuration()
+    ) {
+      console.log("next song");
+      // autoplay next song
+      // return nextSong()
     }
+  }
 
   /**
    * Initializes the player
@@ -358,20 +369,20 @@ function MusicPlayer() {
 
     // adds active class to current playing song
     setItemList(
-      itemList.map((item) => {
-        if (item.id == songId) {
-          item.active = true;
-          setActiveSong(item);
+      itemList.map((song) => {
+        if (song.id == songId) {
+          song.active = true;
+          setActiveSong(song);
         } else {
-          item.active = false;
+          song.active = false;
         }
-        return item;
+        return song;
       })
     );
     setTimeout(() => {
       setDuration(playerObj.current.getDuration());
       setCurrentTime(playerObj.current.getCurrentTime());
-      // intervalPointer = counter();
+      counter()
     }, [3000]);
   }
 
@@ -389,7 +400,7 @@ function MusicPlayer() {
   }
 
   /**
-   * Formats time in seconds to mm:ss
+   * Formats time from seconds to mm:ss
    * @param {string} time
    * @returns {String}
    */
@@ -399,6 +410,7 @@ function MusicPlayer() {
     return minutes + ":" + Math.round(seconds);
   }
 
+  // Returns the elapsed time in seconds since the video started playing.
   function counter() {
     return setInterval(() => {
       setCurrentTime(playerObj.current.getCurrentTime());
@@ -407,6 +419,19 @@ function MusicPlayer() {
 
   function updateProgress(secs) {
     playerObj.current.seekTo(secs);
+  }
+
+  async function onPlaylistClick(id) {
+    let playlistSongs = await searchPlaylistSongs(id);
+    let filtedPlaylist = playlists.map((playlist) => {
+      if (playlist.id == id) {
+        playlist.songs = playlistSongs;
+      } else {
+        playlist.songs = [];
+      }
+      return playlist;
+    });
+    setPlaylists(filtedPlaylist);
   }
 }
 

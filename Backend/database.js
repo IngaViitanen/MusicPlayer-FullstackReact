@@ -41,7 +41,7 @@ module.exports = {
     },
 
     // Add song to playlist
-    addSongPlaylist(newSong,playlistId,id) {
+    addSongPlaylist(newSong,playlistId) {
         const songQuery = `SELECT songId,id FROM Song WHERE songId = @songId`
          let song = all(songQuery,{songId:newSong.songId});
          console.log(song)
@@ -95,11 +95,11 @@ module.exports = {
     },
 
     //delete playlist
-    deletePlaylist(id) {
+    deletePlaylist(id, userId) {
         const query = `
-        DELETE FROM  Playlist 
-        WHERE id=@id`
-        return run(query, id)
+        DELETE FROM PLAYLIST 
+        WHERE id = @id`
+        return run(query, {id: id})
     },
 
 

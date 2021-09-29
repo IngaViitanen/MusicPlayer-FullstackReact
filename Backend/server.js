@@ -62,11 +62,12 @@ app.post('/api/playlist', auth.authenticateJWT, (req, res) => {
 
 //delete playlist
 app.delete('/api/playlist', auth.authenticateJWT,(req, res) => {
-    const id = req.body
+    let id = req.body.id
+    //let userId = req.user.id
 
     try {
         let deletePlaylist = db.deletePlaylist(id);
-        res.json(deletePlaylist);
+        res.json({id: deletePlaylist});
 
     } catch (error) {
         console.log(error);

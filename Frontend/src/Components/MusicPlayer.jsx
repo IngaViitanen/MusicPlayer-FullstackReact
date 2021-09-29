@@ -11,6 +11,7 @@ import Player from "./components/Player";
 import Playlist from "./components/Playlist";
 import ShowPlaylist from "./components/ShowPlaylist";
 import PlaylistModal from "./PlaylistModal";
+import DeletePlaylist from "./components/DeletePlaylist";
 
 function MusicPlayer() {
   const [itemList, setItemList] = useState([]);
@@ -146,15 +147,16 @@ function MusicPlayer() {
                     <div className="card-header" id="headingOne">
                       <h5 className="mb-0">
                         <div style={{ position: "absolute", right: "1rem" }}>
-                          <button className="btn btn-sm btn-success">
+                          {/* <button className="btn btn-sm btn-success">
                             <i className="fa fa-share-alt"></i>
                           </button>
                           <button className="btn btn-sm btn-primary">
                             <i className="fa fa-play"></i>
                           </button>
-                          <button className="btn btn-sm btn-danger">
+                          <button className="btn btn-sm btn-danger" >
                             <i className="fa fa-trash"></i>
-                          </button>
+                          </button> */}
+                          <DeletePlaylist />
                         </div>
                         <div
                           onClick={() => onPlaylistClick(playlist.id)}

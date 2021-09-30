@@ -152,11 +152,13 @@ function MusicPlayer() {
                           </button>
                           <button className="btn btn-sm btn-primary">
                             <i className="fa fa-play"></i>
-                          </button>
-                          <button className="btn btn-sm btn-danger" >
-                            <i className="fa fa-trash"></i>
                           </button> */}
-                          <DeletePlaylist />
+                         
+                          {/* <button className="btn btn-sm btn-danger" onClick={ () => removePlaylist(playlist.id)}>
+
+                            <i className="fa fa-trash"></i>
+                          </button>  */}
+                           <DeletePlaylist id={playlist.id} /> 
                         </div>
                         <div
                           onClick={() => onPlaylistClick(playlist.id)}
@@ -467,6 +469,11 @@ function MusicPlayer() {
       console.log(response);
     });
   }
+
+  
+
 }
+
+
 
 export default MusicPlayer;

@@ -4,39 +4,52 @@ import axios from 'axios'
 //import ShowPlaylist from './ShowPlaylist'
 
 
-function DeletePlaylist() {
+function DeletePlaylist({id}) {
 //const [playlistId, setPlaylistId] = useState();
 
-function removePlaylist(playlistId) {
+function removePlaylist() {
 
     // let queryPl = {
     //     playlistId: playlistId.id
     // }
 
-    axios.delete(
-        API_BASE_URL + `playlist`,
+    // axios.delete(
+    //     API_BASE_URL + `playlist`,
 
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`,
-                withCredentials: true 
-              }
+    //     {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`,
+    //             withCredentials: true 
+    //           }
+    //     },
+    //      { id: playlistId }
+    // )
+
+    axios({
+        method: "DELETE",
+        url: API_BASE_URL + "playlist",
+        data: { playlistId: id },
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
         },
-        {data: { id: playlistId, playlistId }}
-    )
+      }).then((response) => {
+        console.log(response,'playlist response');
+      });
+  
     
        
-    .then(function(response) {
-        //let id = response.data
-        console.log(playlistId)
-        console.log('response', response)
-        console.log("Deleted: ", response.data);
+    // .then(function(response) {
+    //     //let id = response.data
+    //     console.log(playlistId)
+    //     console.log('response', response)
+    //     console.log("Deleted: ", response.data);
         
-    })
-    .catch(function (error) {
-        console.log("Deletion failed with error:" + error);
-    });
+    // })
+    // .catch(function (error) {
+    //     console.log("Deletion failed with error:" + error);
+    // });
 }
 
     return (

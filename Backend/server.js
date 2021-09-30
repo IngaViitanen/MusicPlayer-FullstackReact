@@ -62,7 +62,9 @@ app.post('/api/playlist', auth.authenticateJWT, (req, res) => {
 
 //delete playlist
 app.delete('/api/playlist', auth.authenticateJWT,(req, res) => {
-    let id = req.body.id
+    let id = req.body.playlistId
+    console.log(req.body.playlistId)
+    
     //let userId = req.user.id
 
     try {

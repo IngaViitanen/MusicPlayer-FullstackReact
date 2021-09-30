@@ -1,6 +1,6 @@
 import React from "react";
 
-function MediaItem({ onClick, title, artist, image, type,active,removeSongPlaylist}) {
+function MediaItem({ onClick, title, artist, image, type,active,removeSongPlaylist,playlist}) {
   let classList = "list-group-item list-group-item-action justify-content-between";
   // Adds active class for playing song
   classList += active ? " active": "";
@@ -18,8 +18,12 @@ function MediaItem({ onClick, title, artist, image, type,active,removeSongPlayli
             <h3>{type == "artist" ? artist : title}</h3>
             {type !== "artist" && <span>{artist}</span>}
           </div>
-          {type == "song" && <i onClick={onClick} className="fa fa-play"></i>}
-          {type == "song" && <i onClick={removeSongPlaylist} className="fa fa-trash"></i>}
+          <div>
+            {type == "song" && <i onClick={onClick} className="fa fa-play"></i>}
+            {playlist && (
+              <i onClick={removeSongPlaylist} className="fa fa-trash ml-3"></i>
+            )}
+          </div>
         </div>
       </div>
       {type !== "song" && (

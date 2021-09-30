@@ -11,6 +11,7 @@ import Player from "./components/Player";
 import Playlist from "./components/Playlist";
 import ShowPlaylist from "./components/ShowPlaylist";
 import PlaylistModal from "./PlaylistModal";
+import DeletePlaylist from "./components/DeletePlaylist";
 
 function MusicPlayer() {
   const [itemList, setItemList] = useState([]);
@@ -79,6 +80,7 @@ function MusicPlayer() {
           <div className="tab-content" id="myTabContent">
             {/* song tab content */}
             <div
+              style={{ paddingBottom: "260px" }}
               className="tab-pane fade show active"
               id="home"
               role="tabpanel"
@@ -152,9 +154,10 @@ function MusicPlayer() {
                           {/* <button className="btn btn-sm btn-primary">
                             <i className="fa fa-play"></i>
                           </button> */}
-                          <button className="btn btn-sm btn-danger">
+                          {/* <button className="btn btn-sm btn-danger">
                             <i className="fa fa-trash"></i>
-                          </button>
+                          </button> */}
+                          <DeletePlaylist id={playlist.id} />
                         </div>
                         <div
                           onClick={() => onPlaylistClick(playlist.id)}
@@ -179,6 +182,7 @@ function MusicPlayer() {
                         {playlist.songs?.length ? (
                           playlist.songs.map((song) => (
                             <MediaItem
+                              playlist
                               active={false}
                               type="song"
                               title={song.Song_name}
@@ -186,7 +190,9 @@ function MusicPlayer() {
                               image={song.image}
                               id={song.songId}
                               onClick={() => playNewSong(song.songId)}
-                              removeSongPlaylist={() => removeSongPlaylist(song.songId)}
+                              removeSongPlaylist={() =>
+                                removeSongPlaylist(song.songId,playlist.id)
+                              }
                             />
                           ))
                         ) : (
@@ -204,7 +210,7 @@ function MusicPlayer() {
         </div>
         {/* Music player starts here*/}
         <div className="col-md-6">
-          <div className="d-flex flex-column justify-content-between">
+          <div className="playerBottom  d-flex flex-column justify-content-between">
             <div>
               {/* Musicplayer and artist picture */}
               <div className="d-flex justify-content-center">
@@ -218,7 +224,7 @@ function MusicPlayer() {
                     alt=""
                     height="auto"
                     width="60%"
-                    className="img img-thumbnail"
+                    className="d-none img img-thumbnail"
                   />
                 )}
               </div>
@@ -231,7 +237,7 @@ function MusicPlayer() {
               {/* PROGRESS BAR STARTS*/}
               {activeSong && (
                 <div className="d-flex mt-4">
-                  <span className="" style={{ flex: 1 }}>
+                  <span className="h3" style={{ flex: 1 }}>
                     {timeFormater(currentTime)}
                   </span>
                   <div className="" style={{ flex: 7, marginTop: "5px" }}>
@@ -245,7 +251,7 @@ function MusicPlayer() {
                       onChange={(e) => updateProgress(e.target.value)}
                     ></input>
                   </div>
-                  <span style={{ flex: 1, textAlign: "end" }}>
+                  <span className="h3" style={{ flex: 1, textAlign: "end" }}>
                     {timeFormater(duration)}
                   </span>
                 </div>
@@ -285,21 +291,21 @@ function MusicPlayer() {
                   >
                     <i className="fa fa-music"></i>
                   </button>
-                  <PlaylistModal>
-                    <Playlist
-                      onCreate={(newPlaylist) =>
-                        setPlaylists([newPlaylist, ...playlists])
-                      }
-                    />
-                    <ShowPlaylist
-                      playlists={playlists}
-                      addSongPlaylist={addSongPlaylist}
-                    />
-                  </PlaylistModal>
                 </div>
               </div>
             )}
           </div>
+          <PlaylistModal>
+            <Playlist
+              onCreate={(newPlaylist) =>
+                setPlaylists([newPlaylist, ...playlists])
+              }
+            />
+            <ShowPlaylist
+              playlists={playlists}
+              addSongPlaylist={addSongPlaylist}
+            />
+          </PlaylistModal>
         </div>
       </div>
     </div>
@@ -457,7 +463,8 @@ function MusicPlayer() {
     });
   }
   
-  async function removeSongPlaylist(songId) {
+  function removeSongPlaylist(songId,playlistId) {
+    console.log(playlistId);
       axios({
       method: "DELETE",
       url: API_BASE_URL + "song",
@@ -467,7 +474,14 @@ function MusicPlayer() {
         Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
       },
     }).then((response) => {
-      console.log(response,'song response');
+     let updatedSongs = playlists.map((playlist) => {
+        if(playlist.id == playlistId) {
+          playlist.songs = playlist.songs.filter((song) => (song.songId != songId))
+        }
+        return playlist;
+      })
+      setPlaylists(updatedSongs)
+
     });
   }
   

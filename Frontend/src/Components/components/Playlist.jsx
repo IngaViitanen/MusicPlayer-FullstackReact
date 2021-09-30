@@ -27,11 +27,10 @@ function Playlist({onCreate}) {
           }
         )
         .then(function (response) {
-          let songArray = response.data.map((item) => {
-            item.songs = [];
-            return item;
-          });
-          onCreate(songArray);
+          console.log(response);
+          let newPlaylist = response.data;
+          newPlaylist.songs = [];
+          onCreate(newPlaylist);
         })
         .catch((error) => {
           console.error("Error", error);

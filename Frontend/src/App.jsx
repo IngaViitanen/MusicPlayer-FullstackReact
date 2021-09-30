@@ -17,7 +17,7 @@ function App() {
   return (
     //setting up react-router for displaying pages at different address paths
     <Router>
-      <div className="App">
+      <div className="App" >
         <Header title={title} />
         <div className="container d-flex align-items-center flex-column">
           <Switch>

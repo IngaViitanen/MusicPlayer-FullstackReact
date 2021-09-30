@@ -26,12 +26,16 @@ function Playlist({onCreate}) {
             },
           }
         )
+        // .then(function (response) {
+        //   let songArray = response.data.map((item) => {
+        //     item.songs = [];
+        //     return item;
+        //   });
+        //   onCreate(songArray, response.data);
+        // })
         .then(function (response) {
-          let songArray = response.data.map((item) => {
-            item.songs = [];
-            return item;
-          });
-          onCreate(songArray);
+          console.log(response,'response');
+          onCreate(response.data)
         })
         .catch((error) => {
           console.error("Error", error);

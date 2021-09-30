@@ -72,7 +72,7 @@ function MusicPlayer() {
                 aria-controls="profile"
                 aria-selected="false"
               >
-                Playslists
+                Playlists
               </a>
             </li>
           </ul>

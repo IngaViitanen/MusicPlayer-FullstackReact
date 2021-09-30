@@ -105,15 +105,15 @@ function MusicPlayer() {
                   onClick={() => onSearch("song")}
                 >
                   <input type="radio" name="options" id="option1" />
-                  Songs
+                  Search
                 </label>
-                <label
+                {/* <label
                   className="btn btn-primary"
                   onClick={() => onSearch("artist")}
                 >
                   <input type="radio" name="options" id="option2" />
                   Artist
-                </label>
+                </label> */}
               </div>
               {/* Songs list */}
               <div className="songList">
@@ -146,12 +146,12 @@ function MusicPlayer() {
                     <div className="card-header" id="headingOne">
                       <h5 className="mb-0">
                         <div style={{ position: "absolute", right: "1rem" }}>
-                          <button className="btn btn-sm btn-success">
+                          {/* <button className="btn btn-sm btn-success">
                             <i className="fa fa-share-alt"></i>
-                          </button>
-                          <button className="btn btn-sm btn-primary">
+                          </button> */}
+                          {/* <button className="btn btn-sm btn-primary">
                             <i className="fa fa-play"></i>
-                          </button>
+                          </button> */}
                           <button className="btn btn-sm btn-danger">
                             <i className="fa fa-trash"></i>
                           </button>
@@ -186,6 +186,7 @@ function MusicPlayer() {
                               image={song.image}
                               id={song.songId}
                               onClick={() => playNewSong(song.songId)}
+                              removeSongPlaylist={() => removeSongPlaylist(song.songId)}
                             />
                           ))
                         ) : (
@@ -442,16 +443,6 @@ function MusicPlayer() {
       image: activeSong.image,
       songId: activeSong.id,
     };
-    //  let response = await fetch(`${API_BASE_URL}user/playlist/song`, {
-    //    headers: {
-    //      'Content-type':'application/json',
-    //      Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
-    //    },
-    //    method: 'POST',
-    //    body: JSON.stringify({playlistId,song:querySong})
-    //  });
-    //  response = await response.json();
-    //  console.log(response);
 
     axios({
       method: "POST",
@@ -465,6 +456,21 @@ function MusicPlayer() {
       console.log(response);
     });
   }
+  
+  async function removeSongPlaylist(songId) {
+      axios({
+      method: "DELETE",
+      url: API_BASE_URL + "song",
+      data: { songId},
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
+      },
+    }).then((response) => {
+      console.log(response,'song response');
+    });
+  }
+  
 }
 
 export default MusicPlayer;

@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ###
 
-//test to get all users and playlists 
+//Get to get all users and playlists 
 GET http://localhost:4000/api/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjg5NzY2NywiZXhwIjoxNjMyOTg0MDY3fQ.2xJPMDiwgUywJLioEko09e38bfynvWuR-OsoCsXQdE8
 
@@ -32,19 +32,31 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6M
 
 ###
 
+# Delete playlist
 DELETE   http://localhost:4000/api/playlist
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjQ2ODI2MiwiZXhwIjoxNjMyNTU0NjYyfQ.KK9yUeMt1ScEyam1lpqsxZUFUydW1W7k7tORnhKjXPk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjg5NzY2NywiZXhwIjoxNjMyOTg0MDY3fQ.2xJPMDiwgUywJLioEko09e38bfynvWuR-OsoCsXQdE8
 Content-Type: application/json
 
-{ "id": "5"}
+{ "id": "73"}
 
-###
+
+### DELETE SONG
+DELETE   http://localhost:4000/api/song
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjg5NzY2NywiZXhwIjoxNjMyOTg0MDY3fQ.2xJPMDiwgUywJLioEko09e38bfynvWuR-OsoCsXQdE8
+Content-Type: application/json
+
+{ "songId": "6O3OP2MXWBE"}
+
+
+
+
+### Get songs from playlist
 GET http://localhost:4000/api/user/playlist/song/51
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjcyMDc2MywiZXhwIjoxNjMyODA3MTYzfQ.Km0FURf65kxBES4AGE06mIAaIH2WFMbr0yN2GPfGLSY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjkzMDQ2OSwiZXhwIjoxNjMzMDE2ODY5fQ.e2O3SBHau9OIl3KNO9NnkpedRtygnv4dgqjBaSlJle0
 Content-Type: application/json
 
 
-###
+### Add song to user playlist
 POST http://localhost:4000/api/user/playlist/song
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjg5NzY2NywiZXhwIjoxNjMyOTg0MDY3fQ.2xJPMDiwgUywJLioEko09e38bfynvWuR-OsoCsXQdE8
 Content-Type: application/json

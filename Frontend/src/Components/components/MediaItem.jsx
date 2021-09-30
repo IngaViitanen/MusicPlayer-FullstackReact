@@ -1,15 +1,11 @@
 import React from "react";
 
-function MediaItem({ onClick, title, artist, image, type,active}) {
+function MediaItem({ onClick, title, artist, image, type,active,removeSongPlaylist}) {
   let classList = "list-group-item list-group-item-action justify-content-between";
   // Adds active class for playing song
   classList += active ? " active": "";
   return (
-    <a
-      onClick={onClick}
-      href="#"
-      className={classList}
-    >
+    <a href="#" className={classList}>
       <div className="d-flex">
         <img
           className="img img-thumbnail rounded"
@@ -19,10 +15,11 @@ function MediaItem({ onClick, title, artist, image, type,active}) {
         />
         <div className="d-flex justify-content-between w-100 align-items-center">
           <div className="px-3 d-flex flex-column justify-content-center">
-            <h3>{type == 'artist' ? artist : title}</h3>
-            {type !== 'artist' && <span>{artist}</span>}
+            <h3>{type == "artist" ? artist : title}</h3>
+            {type !== "artist" && <span>{artist}</span>}
           </div>
-          {type == "song" && <i className="fa fa-play"></i>}
+          {type == "song" && <i onClick={onClick} className="fa fa-play"></i>}
+          {type == "song" && <i onClick={removeSongPlaylist} className="fa fa-trash"></i>}
         </div>
       </div>
       {type !== "song" && (

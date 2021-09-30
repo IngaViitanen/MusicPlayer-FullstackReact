@@ -99,7 +99,7 @@ module.exports = {
         const query = `
         DELETE FROM  Playlist 
         WHERE id=@id`
-        return run(query, id)
+        return run(query, {id})
     },
 
 
@@ -114,9 +114,9 @@ module.exports = {
     //delete song from user playlist
     deleteSong(deletedSong) {
         const query = `
-        DELETE FROM CrossTable
-        WHERE song_id=@song_id  `
-        return run(query, deletedSong)
+        DELETE FROM Song
+        WHERE songId=@songId`
+        return run(query, {songId:deletedSong})
     }
 }
 

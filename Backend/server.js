@@ -60,28 +60,29 @@ app.post('/api/playlist', auth.authenticateJWT, (req, res) => {
     });
 })
 
-//delete playlist
-app.delete('/api/playlist', auth.authenticateJWT,(req, res) => {
-    const id = req.body
+app.delete("/api/playlist", auth.authenticateJWT, (req, res) => {
+  let id = req.body.playlistId;
+  console.log(req.body.playlistId);
 
-    try {
-        let deletePlaylist = db.deletePlaylist(id);
-        res.json(deletePlaylist);
+  //let userId = req.user.id
 
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({
-            status: 'failure',
-            message: "Unable to delete playlist!"
-        })
-    }
-})
+  try {
+    let deletePlaylist = db.deletePlaylist(id);
+    res.json({ id: deletePlaylist, playlistId: id });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      status: "failure",
+      message: "Unable to delete playlist!",
+    });
+  }
+});
 
 // add song to user playlist
 app.post('/api/user/playlist/song', auth.authenticateJWT, (req, res) => {
     let playlistId = req.body.playlistId
     let addedSong = req.body.song
-    console.log(req.body)
+    // console.log(req.body)
     // inserts song into the playlist and sets its id to auto incremented id
     let insert = db.addSongPlaylist(addedSong,playlistId);
     console.log(insert,'insert')
@@ -102,19 +103,20 @@ app.get('/api/user/playlist/song/:id', auth.authenticateJWT, (req, res) => {
 })
 
 //delete song from user playlist
-app.delete('/api/playlist/:id/song', auth.authenticateJWT, (req, res) => {
-    try {
-        const deletedSong = db.deleteSong(req.params);
-        res.json(deletedSong);
-
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({
-            status: 'failure',
-            message: "Unable to delete song from a playlist!"
-        })
-    }
-})
+app.delete("/api/song", auth.authenticateJWT, (req, res) => {
+    const songId = req.body.songId
+    // console.log(id)
+  try {
+    const deletedSong = db.deleteSong(songId);
+    res.json(deletedSong);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      status: "failure",
+      message: "Unable to delete song from a playlist!",
+    });
+  }
+});
 
 
 app.listen(4000, () => console.log('Server started at port 4000'));

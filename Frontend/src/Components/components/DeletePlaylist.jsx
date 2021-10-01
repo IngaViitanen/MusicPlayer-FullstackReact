@@ -1,30 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../../Constants/apiContants'
 import axios from 'axios'
-//import ShowPlaylist from './ShowPlaylist'
-
 
 function DeletePlaylist({id}) {
-//const [playlistId, setPlaylistId] = useState();
+  const [playlists, setPlaylists] = useState([])
 
-function removePlaylist() {
+  useEffect(() => {
+    (async () => {
+      let response = await fetch(API_BASE_URL + "userplaylist", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
+        },
+      });
+      response = await response.json();
+      let playlists = response.PLAYLIST.map((item) => {
+        item.playlists = [];
+        return item;
+      });
+      setPlaylists(playlists);
+    })();
+  }, []);
 
-    // let queryPl = {
-    //     playlistId: playlistId.id
-    // }
+  // useEffect(() => {
+  //   console.log(id)
+  // }, [playlists])
 
-    // axios.delete(
-    //     API_BASE_URL + `playlist`,
+  
 
-    //     {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`,
-    //             withCredentials: true 
-    //           }
-    //     },
-    //      { id: playlistId }
-    // )
+function removePlaylist(playlistId) {
+  console.log(playlistId)
 
     axios({
         method: "DELETE",
@@ -34,26 +38,27 @@ function removePlaylist() {
           "Content-type": "application/json",
           Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_NAME),
         },
-      }).then((response) => {
-        console.log(response,'playlist response');
+      })
+      // .then(response => {
+      //   //update state
+      //       this.setState({ playlists: playlist });
+      //   });
+      
+      .then((response) => {
+        let updatedPlaylist = playlists.map((playlist) => {
+          if(playlist.id == playlistId) {
+            playlist.id = playlist.id.filter((id) => (id.playlistId != playlistId))
+          }
+          return playlist;
+        })
+        setPlaylists(updatedPlaylist)
+        console.log(updatedPlaylist)
+        console.log(playlists)
       });
-  
-    
-       
-    // .then(function(response) {
-    //     //let id = response.data
-    //     console.log(playlistId)
-    //     console.log('response', response)
-    //     console.log("Deleted: ", response.data);
-        
-    // })
-    // .catch(function (error) {
-    //     console.log("Deletion failed with error:" + error);
-    // });
 }
 
     return (
-        <button className="btn btn-sm btn-danger" onClick={removePlaylist} >
+        <button className="btn btn-sm btn-danger alert alert-info" role="alert" onClick={removePlaylist} >
         <i className="fa fa-trash"></i>
         </button>
     )

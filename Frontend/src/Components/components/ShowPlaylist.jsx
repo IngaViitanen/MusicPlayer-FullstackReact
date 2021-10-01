@@ -13,6 +13,12 @@ function ShowPlaylist({ playlists, addSongPlaylist }) {
     addSongPlaylist(playlistId);
   }
 
+  function alertSuccess() {
+    if(saveSongplaylist = true) {
+      console.log('success')
+    }
+  }
+
   return (
     <form onSubmit={saveSongplaylist}>
       <ul className="list-group" onChange={handleRadioSelect}>
@@ -36,7 +42,7 @@ function ShowPlaylist({ playlists, addSongPlaylist }) {
           </li>
         ))}
       </ul>
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-primary" onClick={alertSuccess} >
         Add to playlist
       </button>
     </form>

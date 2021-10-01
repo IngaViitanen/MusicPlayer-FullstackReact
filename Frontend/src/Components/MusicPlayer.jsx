@@ -72,7 +72,7 @@ function MusicPlayer() {
                 aria-controls="profile"
                 aria-selected="false"
               >
-                Playslists
+                Playlists
               </a>
             </li>
           </ul>
@@ -109,6 +109,7 @@ function MusicPlayer() {
                   <input type="radio" name="options" id="option1" />
                   Search
                 </label>
+                <button className="btn" type="button" data-toggle="collapse" data-target="#collapse">Hide Player</button>
                 {/* <label
                   className="btn btn-primary"
                   onClick={() => onSearch("artist")}
@@ -148,15 +149,7 @@ function MusicPlayer() {
                     <div className="card-header" id="headingOne">
                       <h5 className="mb-0">
                         <div style={{ position: "absolute", right: "1rem" }}>
-                          {/* <button className="btn btn-sm btn-success">
-                            <i className="fa fa-share-alt"></i>
-                          </button> */}
-                          {/* <button className="btn btn-sm btn-primary">
-                            <i className="fa fa-play"></i>
-                          </button> */}
-                          {/* <button className="btn btn-sm btn-danger">
-                            <i className="fa fa-trash"></i>
-                          </button> */}
+                          {/* delete playlist button */}
                           <DeletePlaylist id={playlist.id} />
                         </div>
                         <div
@@ -209,8 +202,11 @@ function MusicPlayer() {
           </div>
         </div>
         {/* Music player starts here*/}
-        <div className="col-md-6">
-          <div className="playerBottom  d-flex flex-column justify-content-between">
+        <div className="col-md-6" >
+        
+        <div id="collapse">
+        <div className="playerBottom fixed-bottom d-flex flex-column justify-content-between" >
+          
             <div>
               {/* Musicplayer and artist picture */}
               <div className="d-flex justify-content-center">
@@ -240,7 +236,7 @@ function MusicPlayer() {
                   <span className="h3" style={{ flex: 1 }}>
                     {timeFormater(currentTime)}
                   </span>
-                  <div className="" style={{ flex: 7, marginTop: "5px" }}>
+                  <div className="progressBar" style={{ flex: 7, marginTop: "5px" }}>
                     <input
                       value={currentTime}
                       type="range"
@@ -294,6 +290,7 @@ function MusicPlayer() {
                 </div>
               </div>
             )}
+          </div>
           </div>
           <PlaylistModal>
             <Playlist
@@ -465,6 +462,7 @@ function MusicPlayer() {
   
   function removeSongPlaylist(songId,playlistId) {
     console.log(playlistId);
+    console.log(songId)
       axios({
       method: "DELETE",
       url: API_BASE_URL + "song",

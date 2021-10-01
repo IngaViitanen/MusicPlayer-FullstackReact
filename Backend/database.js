@@ -102,15 +102,6 @@ module.exports = {
         return run(query, {id})
     },
 
-
-    // add song to playlist
-    insertSong(playlistId, addedSong) {
-        const query = `
-        INSERT INTO CrossTable (playlist_id, song_id)
-        VALUES (@playlistId, @songId)`
-        return run(query, {playlistId:playlistId, songId:addedSong})
-    },
-
     //delete song from user playlist
     deleteSong(deletedSong) {
         const query = `
